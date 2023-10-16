@@ -1,8 +1,9 @@
-const express = require('express');
-const productsRoutes = require('./routes/products.routes');
-const userRoutes = require('./routes/user.routes');
-const cors = require('cors');
 require('dotenv').config();
+const express = require('express');
+const productsRoutes = require('./src/routes/products.routes');
+const userRoutes = require('./src/routes/user.routes');
+const cors = require('cors');
+
 
 
 
@@ -23,6 +24,6 @@ app.use(express.json());
 app.use('/producto',productsRoutes);
 app.use('/user', userRoutes)
 
-app.listen(process.env.PORT, () => {
+app.listen(3000, () => {
     console.log("corriendo en el puerto 3000");
 })

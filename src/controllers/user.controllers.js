@@ -1,44 +1,36 @@
-const createConnection = require('../db');
+const User = require('../models/user'); // Importa el modelo User
 
 const userController = {
-
     getUser: async (req, res) => {
         try {
-
-            const dbConennection = await createConnection();
-            const [rows, column] = await dbConennection.query("SELECT * FROM usuarios")
-            res.json(rows);
+            const users = await User.findAll(); // Usa la función findAll() para obtener todos los usuarios
+            res.json(users);
         } catch (error) {
             console.error(error);
+            res.status(500).send('Error al obtener usuarios');
         }
     },
     createUser: async (req, res) => {
-        const nombre = req.body.nombre;
-        const apellido = req.body.apellido;
-        const email = req.body.email;
-        const password = req.body.password;
-        const direccion = req.body.direccion;
-        const telefono = req.body.telefono;
-        const provincia = req.body.provincia;
-        const localidad = req.body.localidad;
-        const piso = req.body.piso;
+        try {
+            const userData = {
+                nombre: req.body.nombre,
+                apellido: req.body.apellido,
+                email: req.body.email,
+                password: req.body.password,
+                direccion: req.body.direccion,
+                telefono: req.body.telefono,
+                provincia: req.body.provincia,
+                localidad: req.body.localidad,
+                piso: req.body.piso,
+            };
 
-        const db = await createConnection();
-
-        db.query("INSERT INTO usuarios(nombre,apellido, email, password,direccion,telefono,provincia,localidad,piso) VALUES(?,?,?,?,?,?,?,?,?)", [nombre, apellido, email, password, direccion, telefono, provincia, localidad, piso],
-            (err, result) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send("usuario registrado con exito");
-                }
-            }
-        );
+            const user = await User.create(userData); // Crea un nuevo usuario en la base de datos
+            res.json(user);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al crear usuario');
+        }
     }
-
-
-}
-
-
+};
 
 module.exports = userController;

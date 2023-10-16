@@ -18,6 +18,8 @@ const route = express.Router();
  */
 route.get('/', controllerProducts.getProducts);
 
+
+
 /**
  * Elimina un producto por su ID.
  * @name DELETE /products/:idproducto
@@ -28,6 +30,8 @@ route.get('/', controllerProducts.getProducts);
  * @throws {Error} - Si hay un error al eliminar el producto.
  */
 route.delete('/:idproducto', controllerProducts.deleteProduct);
+
+
 
 /**
  * Actualiza un producto por su ID.
@@ -40,6 +44,9 @@ route.delete('/:idproducto', controllerProducts.deleteProduct);
  * @throws {Error} - Si hay un error al actualizar el producto.
  */
 route.put('/:idproducto', controllerProducts.updateProduct);
+
+
+
 
 /**
  * Crea un nuevo producto.
