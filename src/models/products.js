@@ -11,43 +11,40 @@ const { DataTypes } = require('sequelize')
  * 
  */
 const Product = sequelize.define(
-    'productos',
+    'products',
     {
         idproducto: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        descripcion: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        precio_cincokg: {
+        price_fivekg: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        precio_diezkg: {
+        price_tenkg: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        img: {
+        image: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         idCategory: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        },
-        imgInfo: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+        }
     }, {
-    timestamps: false, // Desactiva la generación automática de createdAt y updatedAt
+    timestamps: false,
+    tableName: 'products'
 })
 
 module.exports = Product

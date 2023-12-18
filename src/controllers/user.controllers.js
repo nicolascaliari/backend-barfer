@@ -1,10 +1,21 @@
-const User = require('../models/user'); // Importa el modelo User
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { encrypt } = require('../helpers/handleBcrypt');
+
 
 const userController = {
     getUser: async (req, res) => {
         try {
-            const users = await User.findAll(); // Usa la función findAll() para obtener todos los usuarios
-            res.json(users);
+
+            jwt.verify(req.token, 'secretKey', async (err, authData) => {
+                if (err) {
+                    res.sendStatus(403);
+                }
+                else {
+                    const users = await User.findAll();
+                    res.json(users);
+                }
+            });
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al obtener usuarios');
@@ -12,19 +23,13 @@ const userController = {
     },
     createUser: async (req, res) => {
         try {
-            const userData = {
-                nombre: req.body.nombre,
-                apellido: req.body.apellido,
-                email: req.body.email,
-                password: req.body.password,
-                direccion: req.body.direccion,
-                telefono: req.body.telefono,
-                provincia: req.body.provincia,
-                localidad: req.body.localidad,
-                piso: req.body.piso,
-            };
 
-            const user = await User.create(userData); // Crea un nuevo usuario en la base de datos
+            const { nombre, email, password, rol } = req.body;
+
+            console.log(nombre, email, password, rol);
+            const passwordHash = await encrypt(password);
+
+            const user = await User.create({ nombre, email, passwordHash, rol });
             res.json(user);
         } catch (error) {
             console.error(error);

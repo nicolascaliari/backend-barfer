@@ -1,13 +1,10 @@
 const { Sequelize } = require('sequelize')
 
-const databse = process.env.DB_DATABASE
-const username = process.env.DB_USER
-const password = process.env.DB_PASSWORD
+const databse = process.env.DATABASE
+const username = process.env.USERNAME
+const password = process.env.PASSWORD
 
-const sequelize = new Sequelize(
-    databse,
-    username,
-    password,
+const sequelize = new Sequelize(databse, username, password,
     {
         host: 'localhost',
         dialect: 'mysql'

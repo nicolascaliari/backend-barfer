@@ -2,18 +2,14 @@ const { sequelize } = require('../config/db')
 const { DataTypes } = require('sequelize')
 
 const User = sequelize.define(
-    'usuarios',
+    'users',
     {
         idusuarios: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        nombre: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        apellido: {
+        username: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -22,31 +18,16 @@ const User = sequelize.define(
             allowNull: false,
         },
         password: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        direccion: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        telefono: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        provincia: {
+        role:{
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        localidad: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        piso: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+        }
     },{
-        timestamps: false // Desactiva la generación automática de createdAt y updatedAt
+        timestamps: false,
+        tableName: 'users'
 
     })
 

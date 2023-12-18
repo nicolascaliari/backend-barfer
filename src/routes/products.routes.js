@@ -1,62 +1,118 @@
 const express = require('express');
 const controllerProducts = require('../controllers/products.controller');
-
-/**
- * Rutas relacionadas con los productos.
- * @module routes/products
- */
+const { validateCreateProduct } = require('../validators/product')
 
 const route = express.Router();
 
+
 /**
- * Obtiene todos los productos.
- * @name GET /products/
- * @function
- * @memberof module:routes/products
- * @returns {Array} - Una lista de productos.
- * @throws {Error} - Si hay un error al obtener los productos.
+ * @openapi
+ * tags:
+ *   - name: products
+ *     description: endpoints products
  */
-route.get('/', controllerProducts.getProducts);
+
+
+/**
+ * @openapi
+ * paths:
+ *   /product/products:
+ *     get:
+ *       summary: Get all products
+ *       tags: [products]
+ *       security:
+ *         - BearerAuth: []
+ *       responses:
+ *         '200':
+ *           description: Successful operation
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/products'
+ *         '403':
+ *           description: Forbidden - Invalid token
+ */
+route.get('/products', controllerProducts.getProducts);
+
 
 
 
 /**
- * Elimina un producto por su ID.
- * @name DELETE /products/:idproducto
- * @function
- * @memberof module:routes/products
- * @param {number} idproducto - El ID del producto a eliminar.
- * @returns {string} - Un mensaje de éxito.
- * @throws {Error} - Si hay un error al eliminar el producto.
+ * Post track
+ * @openapi
+ * /:idproducto:
+ *    delete:
+ *      tags:
+ *        - products
+ *      summary: "delete products"
+ *      description: Este endpoint es para eliminar un producto
+ *      requestBody:
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/products"
+ *      responses:
+ *        '200':
+ *          description: Retorna el objeto insertado en la colección.
+ *        '422':
+ *          description: Error de validación.
+ *      security:
+ *       - ffofofof: []
  */
 route.delete('/:idproducto', controllerProducts.deleteProduct);
 
 
 
 /**
- * Actualiza un producto por su ID.
- * @name PUT /products/:idproducto
- * @function
- * @memberof module:routes/products
- * @param {number} idproducto - El ID del producto a actualizar.
- * @param {Object} body - Datos actualizados del producto.
- * @returns {Object} - El producto actualizado.
- * @throws {Error} - Si hay un error al actualizar el producto.
+ * Post track
+ * @openapi
+ * /:idproducto:
+ *    put:
+ *      tags:
+ *        - products
+ *      summary: "update products"
+ *      description: Este endpoint es para actualizar un producto
+ *      requestBody:
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/products"
+ *      responses:
+ *        '200':
+ *          description: Retorna el objeto insertado en la colección.
+ *        '422':
+ *          description: Error de validación.
+ *      security:
+ *       - ffofofof: []
  */
 route.put('/:idproducto', controllerProducts.updateProduct);
 
 
 
-
 /**
- * Crea un nuevo producto.
- * @name POST /products/
- * @function
- * @memberof module:routes/products
- * @param {Object} body - Datos del nuevo producto.
- * @returns {Object} - El producto creado.
- * @throws {Error} - Si hay un error al crear el producto.
+ * Post track
+ * @openapi
+ * /create:
+ *    post:
+ *      tags:
+ *        - products
+ *      summary: "create products"
+ *      description: Este endpoint es para crear un producto
+ *      requestBody:
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/products"
+ *      responses:
+ *        '200':
+ *          description: Retorna el objeto insertado en la colección.
+ *        '422':
+ *          description: Error de validación.
+ *      security:
+ *       - ffofofof: []
  */
-route.post('/', controllerProducts.createProduct);
+route.post('/create', validateCreateProduct, controllerProducts.createProduct);
 
 module.exports = route;
